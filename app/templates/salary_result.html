@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Salary Result{% endblock %}
+
+{% block content %}
+<div class="card max-w-xl mx-auto space-y-6">
+
+  <!-- Header + cycle -->
+  <div class="space-y-2 text-center">
+    <h2 class="text-2xl font-bold text-slate-900 flex items-center justify-center gap-2">
+      <i class="fas fa-file-invoice-dollar text-emerald-500"></i>
+      {{ employee.name }}
+    </h2>
+    <p class="text-sm text-slate-500">Salary cycle</p>
+    <p class="font-semibold text-slate-800">
+      {{ cycle_start }} &rarr; {{ cycle_end }}
+    </p>
+  </div>
+
+  <!-- Numbers row -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <div class="space-y-3">
+      <div class="flex items-center justify-between bg-slate-50 rounded-2xl px-4 py-3">
+        <div class="flex items-center gap-2 text-slate-700 text-sm font-semibold">
+          <i class="fas fa-check-circle text-green-500"></i>
+          Present days
+        </div>
+        <span class="text-lg font-bold text-green-600">
+          {{ present }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between bg-slate-50 rounded-2xl px-4 py-3">
+        <div class="flex items-center gap-2 text-slate-700 text-sm font-semibold">
+          <i class="fas fa-clock text-yellow-500"></i>
+          Half days
+        </div>
+        <span class="text-lg font-bold text-yellow-600">
+          {{ half }}
+        </span>
+      </div>
+
+      <div class="flex items-center justify-between bg-slate-50 rounded-2xl px-4 py-3">
+        <div class="flex items-center gap-2 text-slate-700 text-sm font-semibold">
+          <i class="fas fa-calendar-times text-blue-500"></i>
+          Sunday deductions
+        </div>
+        <span class="text-lg font-bold text-blue-600">
+          {{ sunday_deductions }}
+        </span>
+      </div>
+    </div>
+
+    <div class="space-y-3">
+      <div class="flex items-center justify-between bg-red-50 rounded-2xl px-4 py-3 border border-red-100">
+        <div class="flex items-center gap-2 text-sm font-semibold text-red-700">
+          <i class="fas fa-exclamation-triangle"></i>
+          Total penalties
+        </div>
+        <span class="text-lg font-bold text-red-600">
+          -₹{{ "%.0f"|format(penalty_amount) }}
+        </span>
+      </div>
+
+      <div class="bg-slate-50 rounded-2xl px-4 py-3 flex items-center justify-between">
+        <span class="font-semibold text-slate-700">Gross salary</span>
+        <span class="font-bold text-slate-900">
+          ₹{{ "%.0f"|format(gross_salary) }}
+        </span>
+      </div>
+
+      <div class="bg-gradient-to-r from-emerald-500 to-green-500 rounded-2xl px-4 py-4 flex items-center justify-between shadow-lg">
+        <span class="font-semibold text-white">Net salary</span>
+        <span class="font-bold text-white text-xl">
+          ₹{{ "%.0f"|format(net_salary) }}
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Download button -->
+  <div class="pt-4 border-t border-slate-200">
+    <a href="/salary/slip/{{ salary_run_id }}"
+       class="btn-primary w-full">
+      <i class="fas fa-file-pdf"></i>
+      <span>Download salary slip (PDF)</span>
+    </a>
+  </div>
+
+</div>
+{% endblock %}

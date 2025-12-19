@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - SalaryPro{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+
+  <!-- Active Employees -->
+  <div class="card hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2 group">
+    <div class="flex items-center justify-between mb-6">
+      <div class="p-4 bg-blue-100 rounded-2xl group-hover:bg-blue-200 transition-colors">
+        <i class="fas fa-users text-2xl text-blue-600"></i>
+      </div>
+      <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+    </div>
+    <h3 class="text-2xl font-bold text-slate-900 mb-2">
+      {{ active_employees }}
+    </h3>
+    <p class="text-slate-600 font-medium">
+      Active Employees
+    </p>
+  </div>
+
+  <!-- Inactive Employees -->
+  <div class="card hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2 group">
+    <div class="flex items-center justify-between mb-6">
+      <div class="p-4 bg-red-100 rounded-2xl group-hover:bg-red-200 transition-colors">
+        <i class="fas fa-user-slash text-2xl text-red-600"></i>
+      </div>
+      <div class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+    </div>
+    <h3 class="text-2xl font-bold text-slate-900 mb-2">
+      {{ inactive_employees }}
+    </h3>
+    <p class="text-slate-600 font-medium">
+      Inactive Employees
+    </p>
+  </div>
+
+  <!-- Penalties This Month -->
+  <div class="card hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2 group">
+    <div class="flex items-center justify-between mb-6">
+      <div class="p-4 bg-yellow-100 rounded-2xl group-hover:bg-yellow-200 transition-colors">
+        <i class="fas fa-exclamation-circle text-2xl text-yellow-600"></i>
+      </div>
+      <div class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+    </div>
+    <h3 class="text-2xl font-bold text-slate-900 mb-2">
+      {{ penalties_this_month }}
+    </h3>
+    <p class="text-slate-600 font-medium">
+      Penalties (This Month)
+    </p>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Generate Salary{% endblock %}
+
+{% block content %}
+<div class="card max-w-2xl mx-auto space-y-8">
+
+  <!-- Header + helper -->
+  <div class="text-center space-y-4">
+    <h2 class="text-2xl font-bold text-slate-900">
+      Calculate precise salary with attendance, penalties, and cycle adjustments
+    </h2>
+
+    <div class="inline-flex items-start gap-3 bg-emerald-50 border border-emerald-200 rounded-2xl px-5 py-4 text-left">
+      <div class="mt-1 text-emerald-500">
+        <i class="fas fa-lightbulb"></i>
+      </div>
+      <div>
+        <p class="font-semibold text-emerald-800">Smart Calculation</p>
+        <p class="text-sm text-emerald-700">
+          Automatically factors attendance, half‑days, Sundays and penalties.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <form method="post" class="space-y-6">
+
+    <!-- Employee -->
+    <div>
+      <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+        <i class="fas fa-user-check text-emerald-500"></i>
+        Active employee
+      </label>
+      <select name="employee_id" class="input-field" required>
+        {% for e in employees %}
+          {% if e.is_active %}
+            <option value="{{ e.id }}">
+              {{ e.name }} ({{ e.emp_code }})
+            </option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Month + Year -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+          <i class="fas fa-calendar text-blue-500"></i>
+          Month
+        </label>
+        <select name="month" class="input-field" required>
+          <option value="">Select month</option>
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+          <i class="fas fa-calendar-day text-purple-500"></i>
+          Year
+        </label>
+        <input
+          class="input-field"
+          type="number"
+          name="year"
+          placeholder="2025"
+          required
+        >
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="pt-2">
+      <button type="submit"
+              class="btn-primary w-full md:w-auto md:px-10">
+        <i class="fas fa-magic"></i>
+        <span>Calculate &amp; Generate Salary</span>
+      </button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}

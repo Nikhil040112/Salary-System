@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-12">
+  <!-- Add Penalty Hero -->
+  <div class="card p-10 text-center group hover:shadow-3xl transition-all duration-300">
+    <div class="w-24 h-24 bg-gradient-to-r from-red-400 to-red-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl group-hover:scale-110 transition-transform">
+      <i class="fas fa-exclamation-triangle text-3xl text-white"></i>
+    </div>
+    <h3 class="text-3xl font-bold bg-gradient-to-r from-red-800 to-red-600 bg-clip-text text-transparent mb-4">Record Penalty</h3>
+    <p class="text-slate-600 text-lg mb-8 max-w-2xl mx-auto">Document policy violations and deductions with complete employee traceability</p>
+  </div>
+
+  <!-- Add Penalty Form -->
+  <div class="card p-10">
+    <form method="post" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-4 flex items-center gap-3">
+          <i class="fas fa-user text-blue-500 text-xl"></i>
+          Select Employee
+        </label>
+        <select name="employee_id" required class="input-field h-16 text-lg">
+          {% for e in employees %}
+          <option value="{{ e.id }}">
+            {{ e.name }} <span class="text-slate-500">({{ e.emp_code }})</span>
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-4 flex items-center gap-3">
+          <i class="fas fa-rupee-sign text-red-500 text-xl"></i>
+          Penalty Amount
+        </label>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <i class="fas fa-rupee-sign text-red-500 text-xl"></i>
+          </div>
+          <input type="number" name="amount" step="0.01" min="0" required 
+                 placeholder="500" class="input-field h-16 text-lg pl-12">
+        </div>
+      </div>
+
+      <div class="lg:flex lg:flex-col lg:justify-end">
+        <div class="mb-6 lg:mb-0">
+          <label class="block text-sm font-semibold text-slate-700 mb-4 flex items-center gap-3">
+            <i class="fas fa-sticky-note text-purple-500 text-xl"></i>
+            Reason for Penalty
+          </label>
+          <input type="text" name="reason" required 
+                 placeholder="Late arrival 3x, Policy violation..." class="input-field h-16 text-lg">
+        </div>
+        <button type="submit" class="btn-primary h-16 text-lg">
+          <i class="fas fa-plus-circle text-xl"></i>
+          Add Penalty
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Penalty History -->
+  {% if penalties %}
+  <div class="card p-10">
+    <div class="flex items-center justify-between mb-10">
+      <div class="flex items-center gap-4">
+        <div class="w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
+        <h4 class="text-3xl font-bold bg-gradient-to-r from-red-800 to-red-600 bg-clip-text">
+          Penalty History
+        </h4>
+      </div>
+      <div class="text-2xl font-bold text-red-600">
+        Total: ₹{{ penalties|sum(attribute='amount')|round(0) }}
+      </div>
+    </div>
+    
+    <div class="overflow-x-auto rounded-3xl border border-red-100">
+      <table class="w-full">
+        <thead>
+          <tr class="bg-gradient-to-r from-red-50 to-pink-50 border-b-2 border-red-100">
+            <th class="text-left p-6 font-bold text-red-800 text-lg">Employee</th>
+            <th class="text-left p-6 font-bold text-slate-700 text-lg">Date</th>
+            <th class="text-left p-6 font-bold text-slate-700 text-lg">Reason</th>
+            <th class="text-right p-6 font-bold text-red-700 text-lg">Amount</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-red-50">
+          {% for p in penalties %}
+          <tr class="hover:bg-red-50/50 transition-all group h-20">
+            <td class="p-6 font-semibold text-slate-900">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-red-100 rounded-2xl flex items-center justify-center">
+                  <i class="fas fa-user text-red-600 text-sm"></i>
+                </div>
+                <div>
+                  <div>{{ p.employee.name }}</div>
+                  <div class="text-sm text-slate-500">{{ p.employee.emp_code }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="p-6 text-slate-600 font-mono text-sm">
+              {{ p.date.strftime('%d %b %Y') }}
+            </td>
+            <td class="p-6 text-slate-700 max-w-md">
+              <div class="bg-red-50 px-4 py-2 rounded-2xl text-sm truncate">{{ p.reason }}</div>
+            </td>
+            <td class="p-6 text-right">
+              <span class="text-2xl font-bold bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-2xl shadow-lg">
+                ₹{{ p.amount }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
