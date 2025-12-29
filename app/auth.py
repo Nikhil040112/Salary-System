@@ -23,14 +23,13 @@ def verify_login(username: str, password: str) -> bool:
         return True
     except Exception:
         return False
-
-
+    
 def login_required(request: Request):
     session = request.cookies.get("session")
 
     if not session:
         return RedirectResponse("/login", status_code=303)
-
+    
     try:
         data = serializer.loads(session)
         if data.get("user") != ADMIN_USERNAME:
